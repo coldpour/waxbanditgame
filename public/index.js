@@ -12,8 +12,22 @@ let robotImg = new Image();
 robotImg.onload = () => {
   loaded = true;
 };
+let escaped = 0;
 robotImg.src =
   "https://d1z39p6l75vw79.cloudfront.net/u/562343/33d9a7769650e2c7d8f1d6d51e0b5d9c26eb7f2f/original/waxrobot-low-res-webreadypng.png/!!/b%3AW1sicmVzaXplIiw2NjBdLFsibWF4Il0sWyJ3ZSJdXQ%3D%3D/meta%3AeyJzcmNCdWNrZXQiOiJjb250ZW50LnNpdGV6b29nbGUuY29tIn0%3D.png";
+
+class Bomb {
+  constructor(x, y, size) {
+    this.x = x;
+    this.y = y;
+    this.size = size;
+  }
+  draw() {
+    c.beginPath();
+    c.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+    c.fill();
+  }
+}
 
 class Robot {
   constructor(x, y, size, vX = 0, vY = 0, dir = "left") {
@@ -27,25 +41,20 @@ class Robot {
   }
 
   draw() {
-    const isFlipped = this.dir.startsWith("r");
-    c.save();
-    // if (isFlipped) {
-    //   c.translate(this.x + this.width, this.y);
-    //   c.scale(-1, 1);
-    // }
     c.drawImage(
       robotImg,
       0,
       0,
       robotImg.width,
       robotImg.height,
-      // this.x * (isFlipped ? -1 : 1),
       this.x,
       this.y,
       this.width,
       this.height
     );
-    c.restore();
+    c.beginPath();
+    c.rect(this.x, this.y, this.width, this.height);
+    c.stroke();
   }
 
   update() {
@@ -55,10 +64,8 @@ class Robot {
   }
 }
 
-const robots = [
-  new Robot(canvas.width, 0, robotHeight, -1, 0),
-  new Robot(canvas.width, 200, robotHeight, -2, 0),
-];
+const bombs = [];
+const robots = [new Robot(canvas.width, 200, robotHeight, -2, 0)];
 
 const spawnRobots = () => {
   setInterval(() => {
@@ -75,6 +82,7 @@ const spawnRobots = () => {
 document.addEventListener("click", (e) => {
   shots.push([e.x, e.y]);
   console.log(JSON.stringify(shots));
+  bombs.push(new Bomb(e.x, e.y, 4));
 });
 
 const animate = () => {
@@ -88,12 +96,16 @@ const animate = () => {
 
   c.clearRect(0, 0, canvas.width, canvas.height);
 
+  bombs.forEach((bomb) => {
+    bomb.draw();
+  });
+
+  const toDelete = [];
+
   robots.forEach((r, robotIndex) => {
     shots.forEach(([x, y]) => {
       if (r.x <= x && r.x + r.width >= x && r.y <= y && r.y + r.height >= y) {
-        setTimeout(() => {
-          robots.splice(robotIndex, 1);
-        });
+        toDelete.push(robotIndex);
       }
     });
 
@@ -101,11 +113,20 @@ const animate = () => {
 
     if (r.x < 0 - r.width) {
       setTimeout(() => {
-        robots.splice(robotIndex, 1);
+        toDelete.push(robotIndex);
+        escaped += 1;
       });
     }
   });
+
+  toDelete.forEach((i, j) => {
+    robots.splice(i - j, 1);
+  });
+
   shots = [];
+
+  c.font = "20px Verdana";
+  c.fillText(`Escaped: ${escaped}`, 10, 30);
 };
 
 animate();
