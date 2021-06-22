@@ -1,6 +1,18 @@
 import { useEffect, useRef } from "react";
 import "./App.css";
 
+const drawRect = (ctx, [x, y, width, height]) => {
+  ctx.beginPath();
+  ctx.rect(x, y, width, height);
+  ctx.fill();
+};
+
+const drawCircle = (ctx, [x, y, radius]) => {
+  ctx.beginPath();
+  ctx.arc(x, y, radius, 0, 2 * Math.PI);
+  ctx.fill();
+};
+
 function App() {
   const ref = useRef(null);
 
@@ -10,23 +22,24 @@ function App() {
 
     let requestId;
     let time = 0;
-    const speed = 20;
+    const r1 = {
+      x: 0,
+      y: (canvas.height - 50) / 2,
+      w: 50,
+      h: 50,
+      velocity: 0.01,
+    };
 
     const update = () => {
       time += 1;
+      r1.x =
+        ((canvas.width + r1.w * 4) / 2) * Math.cos(time * r1.velocity) +
+        (canvas.width - r1.w) / 2;
     };
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.beginPath();
-      ctx.arc(
-        canvas.width / 2,
-        canvas.height / 2,
-        (canvas.width / 2) * Math.abs(Math.cos(time / speed)),
-        0,
-        2 * Math.PI
-      );
-      ctx.fill();
+      drawRect(ctx, [r1.x, r1.y, r1.w, r1.h]);
     };
 
     const loop = () => {
@@ -44,7 +57,7 @@ function App() {
 
   return (
     <div>
-      <canvas width="400" height="400" ref={ref} />
+      <canvas width="400" height="400" ref={ref} onClick={() => {}} />
     </div>
   );
 }
