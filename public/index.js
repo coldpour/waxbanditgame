@@ -16,19 +16,6 @@ let escaped = 0;
 robotImg.src =
   "https://d1z39p6l75vw79.cloudfront.net/u/562343/33d9a7769650e2c7d8f1d6d51e0b5d9c26eb7f2f/original/waxrobot-low-res-webreadypng.png/!!/b%3AW1sicmVzaXplIiw2NjBdLFsibWF4Il0sWyJ3ZSJdXQ%3D%3D/meta%3AeyJzcmNCdWNrZXQiOiJjb250ZW50LnNpdGV6b29nbGUuY29tIn0%3D.png";
 
-class Bomb {
-  constructor(x, y, size) {
-    this.x = x;
-    this.y = y;
-    this.size = size;
-  }
-  draw() {
-    c.beginPath();
-    c.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
-    c.fill();
-  }
-}
-
 class Robot {
   constructor(x, y, size, vX = 0, vY = 0, dir = "left") {
     this.x = x;
@@ -64,7 +51,6 @@ class Robot {
   }
 }
 
-const bombs = [];
 const robots = [new Robot(canvas.width, 200, robotHeight, -2, 0)];
 
 const spawnRobots = () => {
@@ -81,8 +67,6 @@ const spawnRobots = () => {
 
 document.addEventListener("click", (e) => {
   shots.push([e.x, e.y]);
-  console.log(JSON.stringify(shots));
-  bombs.push(new Bomb(e.x, e.y, 4));
 });
 
 const animate = () => {
@@ -95,10 +79,6 @@ const animate = () => {
   }
 
   c.clearRect(0, 0, canvas.width, canvas.height);
-
-  bombs.forEach((bomb) => {
-    bomb.draw();
-  });
 
   let toDelete = [];
   let hit = false;
