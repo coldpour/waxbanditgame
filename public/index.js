@@ -100,10 +100,8 @@ const animate = () => {
     r.update();
 
     if (r.x < 0 - r.width) {
-      setTimeout(() => {
-        toDelete.push(robotIndex);
-        escaped += 1;
-      });
+      toDelete.push(robotIndex);
+      escaped += 1;
     }
   });
 
