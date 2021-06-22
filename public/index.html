@@ -12,75 +12,12 @@
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <title>Robot Hunt</title>
     <style>
-      canvas {border: 1px solid red; display: block; margin: auto;}
+     body {margin: 0;}
       </style>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <canvas id='myGame' width='400px' height='400px'></canvas>
-    <script>
-       var canvas = document.getElementById('myGame');
-       var ctx = canvas.getContext('2d');
-     let loaded = false;
-     let robotImg = new Image();
-     robotImg.onload = () => {
-       loaded = true;
-       }
-     robotImg.src = 'https://d1z39p6l75vw79.cloudfront.net/u/562343/33d9a7769650e2c7d8f1d6d51e0b5d9c26eb7f2f/original/waxrobot-low-res-webreadypng.png/!!/b%3AW1sicmVzaXplIiw2NjBdLFsibWF4Il0sWyJ3ZSJdXQ%3D%3D/meta%3AeyJzcmNCdWNrZXQiOiJjb250ZW50LnNpdGV6b29nbGUuY29tIn0%3D.png'
-
-     var time=0;
-     var r1 = {x: 0, y: canvas.height/2, width: 50, height: 50, velocity: 2, alive: true }
-     var shots = []
-     var hits = 0;
-     var misses = 0;
-
-     document.addEventListener('click', (e) => {
-       const {x, y, width, height} = canvas.getBoundingClientRect()
-       const withinWidth = e.x - x >=0 && x + width > e.x
-       const withinHeight = e.y - y >= 0 && y + height > e.y
-       if (withinWidth && withinHeight) shots.push({x: e.x - x, y: e.y - y});
-     }, false)
-
-       const update =() => {
-         if(!loaded) return
-         time+= 1;
-
-         while(shots.length) {
-           const shot = shots.shift()
-           const withinWidth = shot.x - r1.x > 0 && r1.x + r1.width > shot.x
-           const withinHeight = shot.y - r1.y > 0 && r1.y + r1.height > shot.y
-           if(withinWidth && withinHeight) {
-             r1.alive = false;
-             hits +=1;
-           } else {
-             misses +=1;
-           }
-         }
-
-         r1.x = r1.x > canvas.width + r1.width ? r1.x : r1.x + r1.velocity
-         }
-
-       const render = () => {
-         ctx.clearRect(0, 0, canvas.width, canvas.height);
-         ctx.save();
-         ctx.translate(r1.x, r1.y);
-         ctx.scale(-1, 1);
-         if(r1.alive) ctx.drawImage(robotImg, 0,0, robotImg.width, robotImg.height, 0, 0, r1.width, r1.height);
-         ctx.restore()
-
-         ctx.fillText(`Hits: ${hits}`, 10, 10);
-         ctx.fillText(`Misses: ${misses}`, 10, 20);
-         }
-
-       const main = ( tFrame ) =>{
-         window.requestAnimationFrame( main );
-
-         update( tFrame );
-         render();
-       }
-
-       main(); // Start the cycle
-
+    <canvas></canvas>
+    <script src='./public/index.js'></script>
       </script>
   </body>
 </html>
