@@ -21,11 +21,18 @@
     <script>
        var canvas = document.getElementById('myGame');
        var ctx = canvas.getContext('2d');
+     let loaded = false;
+     let robotImg = new Image();
+     robotImg.onload = () => {
+       loaded = true;
+       }
+     robotImg.src = 'https://d1z39p6l75vw79.cloudfront.net/u/562343/33d9a7769650e2c7d8f1d6d51e0b5d9c26eb7f2f/original/waxrobot-low-res-webreadypng.png/!!/b%3AW1sicmVzaXplIiw2NjBdLFsibWF4Il0sWyJ3ZSJdXQ%3D%3D/meta%3AeyJzcmNCdWNrZXQiOiJjb250ZW50LnNpdGV6b29nbGUuY29tIn0%3D.png'
 
      var time=0;
-       var r1 = {x: canvas.width/2, y: canvas.height/2, width: 50, height: 50, velocity: 0.01, alive: true }
-       var r2 = {x: canvas.width/4, y: canvas.height/4, width: 50, height: 50, velocity: 0.01 }
+     var r1 = {x: 0, y: canvas.height/2, width: 50, height: 50, velocity: 2, alive: true }
      var shots = []
+     var hits = 0;
+     var misses = 0;
 
      document.addEventListener('click', (e) => {
        const {x, y, width, height} = canvas.getBoundingClientRect()
@@ -35,23 +42,34 @@
      }, false)
 
        const update =() => {
+         if(!loaded) return
          time+= 1;
 
          while(shots.length) {
            const shot = shots.shift()
            const withinWidth = shot.x - r1.x > 0 && r1.x + r1.width > shot.x
            const withinHeight = shot.y - r1.y > 0 && r1.y + r1.height > shot.y
-           if(withinWidth && withinHeight) r1.alive = false
+           if(withinWidth && withinHeight) {
+             r1.alive = false;
+             hits +=1;
+           } else {
+             misses +=1;
            }
+         }
 
-         r1.x = ((canvas.width + r1.width) / 2) * Math.cos(time * r1.velocity) +
-          (canvas.width - r1.width) / 2;
+         r1.x = r1.x > canvas.width + r1.width ? r1.x : r1.x + r1.velocity
          }
 
        const render = () => {
          ctx.clearRect(0, 0, canvas.width, canvas.height);
-         if(r1.alive) ctx.fillRect(r1.x, r1.y, r1.width, r1.height);
-         ctx.fillRect(r2.x, r2.y, r2.width, r2.height);
+         ctx.save();
+         ctx.translate(r1.x, r1.y);
+         ctx.scale(-1, 1);
+         if(r1.alive) ctx.drawImage(robotImg, 0,0, robotImg.width, robotImg.height, 0, 0, r1.width, r1.height);
+         ctx.restore()
+
+         ctx.fillText(`Hits: ${hits}`, 10, 10);
+         ctx.fillText(`Misses: ${misses}`, 10, 20);
          }
 
        const main = ( tFrame ) =>{
