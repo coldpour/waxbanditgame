@@ -25,9 +25,25 @@
      var time=0;
        var r1 = {x: canvas.width/2, y: canvas.height/2, width: 50, height: 50, velocity: 0.01, alive: true }
        var r2 = {x: canvas.width/4, y: canvas.height/4, width: 50, height: 50, velocity: 0.01 }
+     var shots = []
+
+     document.addEventListener('click', (e) => {
+       const {x, y, width, height} = canvas.getBoundingClientRect()
+       const withinWidth = e.x - x >=0 && x + width > e.x
+       const withinHeight = e.y - y >= 0 && y + height > e.y
+       if (withinWidth && withinHeight) shots.push({x: e.x - x, y: e.y - y});
+     }, false)
 
        const update =() => {
          time+= 1;
+
+         while(shots.length) {
+           const shot = shots.shift()
+           const withinWidth = shot.x - r1.x > 0 && r1.x + r1.width > shot.x
+           const withinHeight = shot.y - r1.y > 0 && r1.y + r1.height > shot.y
+           if(withinWidth && withinHeight) r1.alive = false
+           }
+
          r1.x = ((canvas.width + r1.width) / 2) * Math.cos(time * r1.velocity) +
           (canvas.width - r1.width) / 2;
          }
