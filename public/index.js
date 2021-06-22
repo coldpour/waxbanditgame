@@ -100,12 +100,20 @@ const animate = () => {
     bomb.draw();
   });
 
-  const toDelete = [];
+  let toDelete = [];
+  let hit = false;
 
   robots.forEach((r, robotIndex) => {
     shots.forEach(([x, y]) => {
-      if (r.x <= x && r.x + r.width >= x && r.y <= y && r.y + r.height >= y) {
+      if (
+        !hit &&
+        r.x <= x &&
+        r.x + r.width >= x &&
+        r.y <= y &&
+        r.y + r.height >= y
+      ) {
         toDelete.push(robotIndex);
+        hit = true;
       }
     });
 
