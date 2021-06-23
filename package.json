@@ -4,10 +4,10 @@
   "private": true,
   "dependencies": {
     "prettier": "^2.3.1",
-    "reload": "^3.2.0",
+    "reload": "^3.2.0"
   },
   "scripts": {
-    "start": "reload --port 3000 --browser --start-page public/index.html --exts html,js",
+    "start": "reload --port 3000 --browser --start-page index.html --exts html,js"
   },
   "eslintConfig": {
     "extends": [
