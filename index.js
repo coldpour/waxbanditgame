@@ -67,7 +67,7 @@ document.addEventListener("click", (e) => {
 });
 
 const animate = () => {
-  if (escaped < 30) requestAnimationFrame(animate);
+  if (escaped < 5) requestAnimationFrame(animate);
 
   if (!loaded) return;
   if (loaded && !spawning) {
