@@ -10,10 +10,58 @@
       content="Don't let the robots cross the screen"
     />
     <title>Robot Hunt</title>
-    <style>body { margin: 0; overflow: hidden; }</style>
+    <style>
+     body {
+       margin: 0;
+       overflow: hidden;
+     }
+     .instructions {
+       position: absolute;
+       top: 10%;
+       left:5%;
+       right: 5%;
+       bottom: 50%;
+       transition: all 1s;
+     }
+     @media (min-width: 600px) {
+       .instructions {
+         font-size: 30px;
+       }
+     }
+     .top, .bottom {
+       background: #000;
+       color: #fff;
+       opacity: 0.9;
+       padding: 20px 40px;
+     }
+     .bottom {
+       position: absolute;
+       bottom: 0;
+       left: 50%;
+       transform: translateX(-50%);
+       }
+     p {
+       white-space: nowrap;
+     }
+     .center {
+       text-align: center;
+     }
+     .hide {
+       opacity: 0;
+     }
+    </style>
   </head>
   <body>
     <canvas></canvas>
+    <div class='instructions hide'>
+      <div class='top'>
+        <p class='one'>dunno where these robots think they're goin'...</p>
+        <p class='two'>but they ain't gonna get there...</p>
+      </div>
+      <div class='bottom'>
+        <p>< start ></p>
+      </div>
+    </div>
     <script src='index.js'></script>
   </body>
 </html>

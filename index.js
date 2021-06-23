@@ -144,6 +144,8 @@ const animate = () => {
 document.addEventListener("click", (e) => {
   if (startLoaded && loaded && !started) {
     started = true;
+    const instructions = document.querySelector(".instructions");
+    instructions.classList.add("hide");
     animate();
   }
   shots.push([e.x, e.y]);
@@ -151,8 +153,6 @@ document.addEventListener("click", (e) => {
 
 const loop = setInterval(() => {
   if (!startLoaded && !loaded) return;
-  c.beginPath();
-  c.rect(canvas.width / 2 - 150, canvas.height / 3 - 150, 300, 300);
-  c.fill();
+  document.querySelector(".instructions").classList.remove("hide");
   clearInterval(loop);
 }, 1000);
