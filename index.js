@@ -5,11 +5,41 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 let loaded = false;
+let started = false;
+let startLoaded = false;
 let spawning = false;
 let score = 0;
 const robots = [];
 let shots = [];
 const robotHeight = 100;
+
+let startImg = new Image();
+startImg.onload = () => {
+  startLoaded = true;
+  const hRatio = canvas.width / startImg.width;
+  console.log("hRatio = ", hRatio);
+  const vRatio = canvas.height / (startImg.height - 100);
+  console.log("vRatio = ", vRatio);
+  const ratio = Math.max(hRatio, vRatio);
+  c.drawImage(
+    startImg,
+    0,
+    0,
+    startImg.width,
+    startImg.height - 100,
+    // (startImg.width * ratio * -1) / 4,
+    0,
+    0,
+    startImg.width * ratio,
+    (startImg.height - 100) * ratio
+  );
+  c.beginPath();
+  c.rect(canvas.width / 2 - 150, canvas.height / 3 - 150, 300, 300);
+  c.fill();
+};
+startImg.src =
+  "https://d1z39p6l75vw79.cloudfront.net/u/562343/7bd6482b1d14db826464a94fa34e00c0856b226c/original/eoti-album-art.jpg/!!/meta:eyJzcmNCdWNrZXQiOiJiemdsZmlsZXMifQ==/b:W1sidCIsMF0sWyJyZXNpemUiLDEwMDBdLFsibWF4Il0sWyJ3ZSJdXQ==.jpg";
+
 let robotImg = new Image();
 robotImg.onload = () => {
   loaded = true;
@@ -62,10 +92,6 @@ const spawnRobots = () => {
   }, 250);
 };
 
-document.addEventListener("click", (e) => {
-  shots.push([e.x, e.y]);
-});
-
 const animate = () => {
   if (escaped < 5) requestAnimationFrame(animate);
 
@@ -114,4 +140,10 @@ const animate = () => {
   c.fillText(`Score: ${score}`, 10, 60);
 };
 
-animate();
+document.addEventListener("click", (e) => {
+  if (startLoaded && loaded && !started) {
+    started = true;
+    animate();
+  }
+  shots.push([e.x, e.y]);
+});
