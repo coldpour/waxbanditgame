@@ -28,7 +28,7 @@
          font-size: 30px;
        }
      }
-     .top, .bottom {
+     .top, .bottom, .end {
        background: #000;
        color: #fff;
        opacity: 0.9;
@@ -46,6 +46,18 @@
      .center {
        text-align: center;
      }
+     .end {
+       position: absolute;
+       top: 45%;
+       left:50%;
+       transform: translate(-50%, -50%);
+       transition: all 1s;
+     }
+     @media (min-width: 600px) {
+       .end {
+         font-size: 30px;
+       }
+     }
      .hide {
        opacity: 0;
      }
@@ -61,6 +73,9 @@
       <div class='bottom'>
         <p>< start ></p>
       </div>
+    </div>
+    <div class='end hide'>
+      <p>game over</p>
     </div>
     <script src='index.js'></script>
   </body>

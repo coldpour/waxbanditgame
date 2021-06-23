@@ -94,7 +94,11 @@ const spawnRobots = () => {
 };
 
 const animate = () => {
-  if (escaped < 5) requestAnimationFrame(animate);
+  if (escaped < 5) {
+    requestAnimationFrame(animate);
+  } else {
+    document.querySelector(".end").classList.remove("hide");
+  }
 
   if (!loaded) return;
   if (loaded && !spawning) {
