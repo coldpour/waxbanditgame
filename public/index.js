@@ -6,6 +6,8 @@ canvas.height = window.innerHeight;
 
 let loaded = false;
 let spawning = false;
+let score = 0;
+const robots = [];
 let shots = [];
 const robotHeight = 100;
 let robotImg = new Image();
@@ -39,9 +41,6 @@ class Robot {
       this.width,
       this.height
     );
-    c.beginPath();
-    c.rect(this.x, this.y, this.width, this.height);
-    c.stroke();
   }
 
   update() {
@@ -51,18 +50,16 @@ class Robot {
   }
 }
 
-const robots = [new Robot(canvas.width, 200, robotHeight, -2, 0)];
-
 const spawnRobots = () => {
   setInterval(() => {
     const x = canvas.width;
     const y =
       Math.random() * (((canvas.height - robotHeight) * 2) / 3) +
       canvas.height / 6;
-    const vx = -1;
+    const vx = -1 * (Math.round(Math.random() * 2) + 1);
 
     robots.push(new Robot(x, y, 100, vx));
-  }, 1000);
+  }, 250);
 };
 
 document.addEventListener("click", (e) => {
@@ -70,7 +67,7 @@ document.addEventListener("click", (e) => {
 });
 
 const animate = () => {
-  requestAnimationFrame(animate);
+  if (escaped < 30) requestAnimationFrame(animate);
 
   if (!loaded) return;
   if (loaded && !spawning) {
@@ -93,6 +90,7 @@ const animate = () => {
         r.y + r.height >= y
       ) {
         toDelete.push(robotIndex);
+        score += 1;
         hit = true;
       }
     });
@@ -113,6 +111,7 @@ const animate = () => {
 
   c.font = "20px Verdana";
   c.fillText(`Escaped: ${escaped}`, 10, 30);
+  c.fillText(`Score: ${score}`, 10, 60);
 };
 
 animate();
