@@ -113,7 +113,8 @@ const animate = () => {
 
   if (!loaded) return;
 
-  c.clearRect(0, 0, canvas.width, canvas.height);
+  c.fillStyle = "#000";
+  c.fillRect(0, 0, canvas.width, canvas.height);
 
   let toDelete = [];
   let hit = false;
@@ -147,6 +148,7 @@ const animate = () => {
 
   shots = [];
 
+  c.fillStyle = "#fff";
   c.font = "20px Verdana";
   c.fillText(`Escaped: ${escaped}`, 10, 30);
   c.fillText(`Score: ${score}`, 10, 60);
