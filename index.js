@@ -5,6 +5,7 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 let loaded = false;
+let over = false;
 let started = false;
 let startLoaded = false;
 let spawning = false;
@@ -76,7 +77,8 @@ class Robot {
 }
 
 const spawnRobots = () => {
-  setInterval(() => {
+  const spawnInterval = setInterval(() => {
+    if (over) return clearInterval(spawnInterval);
     const x = canvas.width;
     const y =
       Math.random() * (((canvas.height - robotHeight) * 2) / 3) +
@@ -92,9 +94,9 @@ const hRatio = canvas.width / startImg.width;
 const vRatio = canvas.height / vCrop;
 const ratio = Math.max(hRatio, vRatio);
 const animate = () => {
-  if (escaped < 5) {
-    requestAnimationFrame(animate);
-  } else {
+  requestAnimationFrame(animate);
+  if (escaped >= 5) {
+    over = true;
     document.querySelector(".end").classList.remove("hide");
   }
 
@@ -160,7 +162,7 @@ document.addEventListener("click", (e) => {
     instructions.classList.add("hide");
     animate();
   }
-  shots.push([e.x, e.y]);
+  if (!over) shots.push([e.x, e.y]);
 });
 
 const loop = setInterval(() => {
