@@ -104,10 +104,6 @@ const end = () => {
   }, countdown * 1000);
 };
 
-const vCrop = startImg.height - 800;
-const hRatio = canvas.width / startImg.width;
-const vRatio = canvas.height / vCrop;
-const ratio = Math.max(hRatio, vRatio);
 const animate = () => {
   requestAnimationFrame(animate);
   if (escaped > 0 && !over) {
