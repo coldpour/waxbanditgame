@@ -14,49 +14,29 @@
      body {
        margin: 0;
        overflow: hidden;
+       font-family: Verdana, sans-serif;
      }
-     .instructions {
+     .instructions, .end {
        position: absolute;
        top: 10%;
-       left:5%;
-       right: 5%;
-       bottom: 50%;
-       transition: all 1s;
-     }
-     @media (min-width: 600px) {
-       .instructions {
-         font-size: 30px;
-       }
-     }
-     .top, .bottom, .end {
+       left:50%;
+       transform: translate(-50%);
+       transition: all 0.5s;
        background: #000;
        color: #fff;
        opacity: 0.9;
        padding: 20px 40px;
      }
-     .bottom {
-       position: absolute;
-       bottom: 0;
-       left: 50%;
-       transform: translateX(-50%);
+     @media (min-width: 600px) {
+       .instructions, .end {
+         font-size: 30px;
        }
+     }
      p {
        white-space: nowrap;
      }
      .center {
        text-align: center;
-     }
-     .end {
-       position: absolute;
-       top: 45%;
-       left:50%;
-       transform: translate(-50%, -50%);
-       transition: all 1s;
-     }
-     @media (min-width: 600px) {
-       .end {
-         font-size: 30px;
-       }
      }
      .hide {
        opacity: 0;
@@ -66,16 +46,16 @@
   <body>
     <canvas></canvas>
     <div class='instructions hide'>
-      <div class='top'>
-        <p class='one'>dunno where these robots think they're goin'...</p>
-        <p class='two'>but they ain't gonna get there...</p>
-      </div>
-      <div class='bottom'>
-        <p>< start ></p>
-      </div>
+        <p>dunno where these robots think they're goin'...</p>
+        <p>but they ain't gonna get there...</p>
+        <br />
+        <p class='center'>< start ></p>
     </div>
     <div class='end hide'>
-      <p>game over</p>
+      <p class='center'>GAME OVER</p>
+      <br />
+      <p>if even one of them gets past you</p>
+      <p>we gotta start all over...</p>
     </div>
     <script src='index.js'></script>
   </body>
