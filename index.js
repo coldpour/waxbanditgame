@@ -6,10 +6,12 @@ canvas.height = window.innerHeight;
 
 let loaded = false;
 let over = false;
+let readyToRestart = false;
 let started = false;
 let startLoaded = false;
 let escaped = 0;
 let score = 0;
+let countdown = 3;
 let robots = [];
 let shots = [];
 const robotHeight = 100;
@@ -88,15 +90,29 @@ const spawnRobots = () => {
   }, 250);
 };
 
+const end = () => {
+  document.querySelector(".end").classList.remove("hide");
+  document.querySelector("#cooldown").innerText = `restart in ${countdown}`;
+  const cooldownInterval = setInterval(() => {
+    if (countdown > 0) countdown -= 1;
+    document.querySelector("#cooldown").innerText = `restart in ${countdown}`;
+  }, 1000);
+  setTimeout(() => {
+    readyToRestart = true;
+    clearInterval(cooldownInterval);
+    document.querySelector("#cooldown").innerText = "< restart >";
+  }, countdown * 1000);
+};
+
 const vCrop = startImg.height - 800;
 const hRatio = canvas.width / startImg.width;
 const vRatio = canvas.height / vCrop;
 const ratio = Math.max(hRatio, vRatio);
 const animate = () => {
   requestAnimationFrame(animate);
-  if (escaped > 0) {
+  if (escaped > 0 && !over) {
     over = true;
-    document.querySelector(".end").classList.remove("hide");
+    end();
   }
 
   if (!loaded) return;
@@ -159,11 +175,13 @@ document.addEventListener("click", (e) => {
     spawnRobots();
   }
   if (!over) shots.push([e.x, e.y]);
-  if (over) {
+  if (over && readyToRestart) {
     document.querySelector(".end").classList.add("hide");
     over = false;
+    readyToRestart = false;
     escaped = 0;
     score = 0;
+    countdown = 3;
     robots = [];
     shots = [];
     spawnRobots();
