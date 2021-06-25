@@ -100,7 +100,7 @@ const end = () => {
   setTimeout(() => {
     readyToRestart = true;
     clearInterval(cooldownInterval);
-    document.querySelector("#cooldown").innerText = "< restart >";
+    document.querySelector("#cooldown").innerText = "[  restart  ]";
   }, countdown * 1000);
 };
 

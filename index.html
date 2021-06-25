@@ -14,7 +14,7 @@
      body {
        margin: 0;
        overflow: hidden;
-       font-family: Verdana, sans-serif;
+       font-family: sans-serif;
      }
      .instructions, .end {
        position: absolute;
@@ -27,9 +27,13 @@
        opacity: 0.9;
        padding: 20px 40px;
      }
+     .end {
+       top: 50%;
+       transform: translate(-50%, -50%);
+     }
      @media (min-width: 600px) {
        .instructions, .end {
-         font-size: 30px;
+         font-size: 24px;
        }
      }
      p {
@@ -46,10 +50,10 @@
   <body>
     <canvas></canvas>
     <div class='instructions hide'>
-        <p>dunno where these robots think they're goin'...</p>
+        <p>dunno where these robots think they're goin'</p>
         <p>but they ain't gonna get there...</p>
         <br />
-        <p class='center'>< start ></p>
+        <p class='center'>[  start  ]</p>
     </div>
     <div class='end hide'>
       <p class='center'>GAME OVER</p>
