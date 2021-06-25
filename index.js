@@ -117,17 +117,7 @@ const animate = () => {
 
   if (!loaded) return;
 
-  c.drawImage(
-    startImg,
-    0,
-    0,
-    startImg.width,
-    vCrop,
-    hRatio > vRatio ? 0 : (startImg.width * vRatio - canvas.width) / -2,
-    0,
-    startImg.width * ratio,
-    vCrop * ratio
-  );
+  c.clearRect(0, 0, canvas.width, canvas.height);
 
   let toDelete = [];
   let hit = false;
