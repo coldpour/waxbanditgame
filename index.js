@@ -94,7 +94,7 @@ const vRatio = canvas.height / vCrop;
 const ratio = Math.max(hRatio, vRatio);
 const animate = () => {
   requestAnimationFrame(animate);
-  if (escaped >= 5) {
+  if (escaped > 0) {
     over = true;
     document.querySelector(".end").classList.remove("hide");
   }
