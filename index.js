@@ -8,9 +8,9 @@ let loaded = false;
 let over = false;
 let started = false;
 let startLoaded = false;
-let spawning = false;
+let escaped = 0;
 let score = 0;
-const robots = [];
+let robots = [];
 let shots = [];
 const robotHeight = 100;
 
@@ -40,7 +40,6 @@ let robotImg = new Image();
 robotImg.onload = () => {
   loaded = true;
 };
-let escaped = 0;
 robotImg.src =
   "https://d1z39p6l75vw79.cloudfront.net/u/562343/33d9a7769650e2c7d8f1d6d51e0b5d9c26eb7f2f/original/waxrobot-low-res-webreadypng.png/!!/b%3AW1sicmVzaXplIiw2NjBdLFsibWF4Il0sWyJ3ZSJdXQ%3D%3D/meta%3AeyJzcmNCdWNrZXQiOiJjb250ZW50LnNpdGV6b29nbGUuY29tIn0%3D.png";
 
@@ -101,10 +100,6 @@ const animate = () => {
   }
 
   if (!loaded) return;
-  if (loaded && !spawning) {
-    spawning = true;
-    spawnRobots();
-  }
 
   c.drawImage(
     startImg,
@@ -161,8 +156,18 @@ document.addEventListener("click", (e) => {
     const instructions = document.querySelector(".instructions");
     instructions.classList.add("hide");
     animate();
+    spawnRobots();
   }
   if (!over) shots.push([e.x, e.y]);
+  if (over) {
+    document.querySelector(".end").classList.add("hide");
+    over = false;
+    escaped = 0;
+    score = 0;
+    robots = [];
+    shots = [];
+    spawnRobots();
+  }
 });
 
 const loop = setInterval(() => {
